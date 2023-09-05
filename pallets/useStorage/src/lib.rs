@@ -5,7 +5,12 @@ pub use pallet::*;
 
 #[frame_support::pallet]
 pub mod pallet {
-    use frame_support::pallet_prelude::*;
+    use codec::Codec;
+    use frame_support::{
+        pallet_prelude::*,
+        sp_runtime::traits::AtLeast32BitUnsigned,
+        sp_std::fmt::Debug,
+    };
     use frame_system::pallet_prelude::*;
 
     // Declare the pallet type
@@ -19,6 +24,30 @@ pub mod pallet {
     #[pallet::config]
     pub trait Config: frame_system::Config {
         type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
+        //（1）声明了StudentNumberType和StudentNameType
+        //声明StudentNumber类型
+        type StudentNumberType: Member
+        + Parameter
+        + AtLeast32BitUnsigned
+        + Codec
+        + Copy
+        + Debug
+        + Default
+        + MaxEncodedLen
+        + MaybeSerializeDeserialize;
+
+        //声明StudentName类型
+        type StudentNameType: Parameter
+        + Member
+        + AtLeast32BitUnsigned
+        + Codec
+        + Default
+        + From<u128>
+        + Into<u128>
+        + Copy
+        + MaxEncodedLen
+        + MaybeSerializeDeserialize
+        + Debug;
     }
 
 
@@ -32,7 +61,7 @@ pub mod pallet {
     #[pallet::storage]
     #[pallet::getter(fn students_info)]
     pub type StudentsInfo<T: Config> =
-    StorageMap<_, Blake2_128Concat, u32, u128, ValueQuery>;
+    StorageMap<_, Blake2_128Concat, T::StudentNumberType, T::StudentNameType, ValueQuery>;
 
     #[pallet::storage]
     #[pallet::getter(fn dorm_info)]
@@ -51,7 +80,7 @@ pub mod pallet {
     #[pallet::generate_deposit(pub (super) fn deposit_event)]
     pub enum Event<T: Config> {
         SetClass(u32),
-        SetStudentInfo(u32, u128),
+        SetStudentInfo(T::StudentNumberType, T::StudentNameType),
         SetDormInfo(u32, u32, u32),
     }
 
@@ -79,8 +108,8 @@ pub mod pallet {
         #[pallet::weight(0)]
         pub fn set_student_info(
             origin: OriginFor<T>,
-            student_number: u32,
-            student_name: u128,
+            student_number: T::StudentNumberType,
+            student_name: T::StudentNameType,
         ) -> DispatchResultWithPostInfo {
             ensure_signed(origin)?;
 

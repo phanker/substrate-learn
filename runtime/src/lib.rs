@@ -277,6 +277,23 @@ impl pallet_template::Config for Runtime {
 impl pallet_template2::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 }
+impl use_storage::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type StudentNumberType = u32;
+	type StudentNameType = u128;
+
+}
+impl storage_provider::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type Value = u32;
+}
+
+impl storage_consumer::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type Value = u32;
+	type ProxyStorage = StorageProver;
+
+}
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -291,6 +308,9 @@ construct_runtime!(
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template,
 		TemplateModule2:pallet_template2,
+		UseStorageModule:use_storage,
+		StorageProver:storage_provider,
+		StorageConsumer:storage_consumer,
 	}
 );
 
