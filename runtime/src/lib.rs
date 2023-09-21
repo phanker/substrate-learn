@@ -295,6 +295,11 @@ impl storage_consumer::Config for Runtime {
 
 }
 
+impl pallet_ocw::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+}
+
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime {
@@ -311,6 +316,7 @@ construct_runtime!(
 		UseStorageModule:use_storage,
 		StorageProver:storage_provider,
 		StorageConsumer:storage_consumer,
+		PalletOCW:pallet_ocw,
 	}
 );
 

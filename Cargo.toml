@@ -6,7 +6,8 @@ members = [
      "runtime",
     "pallets/StorageConsumer",
     "pallets/StorageProvider",
-    "pallets/useStorage"
+    "pallets/useStorage",
+    "pallets/ocw"
 ]
 [profile.release]
 panic = "unwind"
