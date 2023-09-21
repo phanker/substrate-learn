@@ -18,7 +18,7 @@ scale-info = { version = "2.5.0", default-features = false, features = ["derive"
 frame-benchmarking = { version = "4.0.0-dev", default-features = false, optional = true, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v1.0.0" }
 frame-support = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v1.0.0" }
 frame-system = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v1.0.0" }
-log = { version = "0.4.14", default-features = false}
+log = { version = "0.4.20", default-features = false}
 storage-provider= { version = "1.0.0-dev", default-features = false, path="../StorageProvider" }
 
 [dev-dependencies]
